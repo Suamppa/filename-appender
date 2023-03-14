@@ -19,8 +19,16 @@ void remove_alpha(std::string& str) {
 int main(int argc, char* argv[]) {
     fs::path root_dir;
     // Check the command line arguments for the directory to search in
-    if (argc == 1) root_dir = fs::current_path();
-    else if (argc != 2) {
+    if (argc == 1) {
+        root_dir = fs::current_path();
+        std::string input;
+        std::cout << "Please enter the path to the directory whose contents to modify or press Enter to use the current working directory:" << std::endl;
+        std::cin >> input;
+        if (!input.empty()) {
+            root_dir = fs::relative(input, root_dir);
+            if (root_dir.empty()) root_dir = fs::current_path();
+        }
+    } else if (argc != 2) {
         std::cout << "Usage: " << argv[0] << " [optional-directory]" << std::endl;
         return 1;
     } else root_dir = argv[1];
