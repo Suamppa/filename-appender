@@ -77,6 +77,7 @@ int main(int argc, char* argv[]) {
             }
         }
     }
-    std::cout << "\nJob finished";
+    std::cout << "\nJob finished\nPress any key to close..." << std::endl;
+    std::getchar();
     return 0;
 }
