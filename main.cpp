@@ -22,8 +22,8 @@ int main(int argc, char* argv[]) {
     if (argc == 1) {
         root_dir = fs::current_path();
         std::string input;
-        std::cout << "Please enter the path to the directory whose contents to modify or press Enter to use the current working directory:" << std::endl;
-        std::cin >> input;
+        std::cout << "Please enter the path to the directory whose contents to modify\nor press Enter to use the current working directory:" << std::endl;
+        std::getline(std::cin, input);
         if (!input.empty()) {
             root_dir = fs::relative(input, root_dir);
             if (root_dir.empty()) root_dir = fs::current_path();
