@@ -81,7 +81,7 @@ $RECYCLE.BIN/
 *.lnk
 
 # Test folders
-.test/*
-.testcomp/*
+test/*
+testcomp/*
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,c++,visualstudiocode
