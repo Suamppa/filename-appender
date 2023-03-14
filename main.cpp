@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
         std::cout << "Usage: " << argv[0] << " [optional-directory]" << std::endl;
         return 1;
     } else root_dir = argv[1];
-    std::cout << "Using " << root_dir.string() << " as working directory";
+    std::cout << "Using " << root_dir.string() << " as working directory" << std::endl;
 
     // Loop through all files in $root_dir
     auto directory_iterator = fs::directory_iterator(root_dir);
@@ -56,9 +56,14 @@ int main(int argc, char* argv[]) {
                 new_filename << static_cast<char>(count + 96);
             }
             new_filename << extension;
-            // Rename the file with the new filename
-            fs::rename(file_path, file_path.parent_path() / new_filename.str());
+            std::string new_filename_str = new_filename.str();
+            if (new_filename_str != filename + extension) {
+                // Rename the file with the new filename
+                fs::rename(file_path, file_path.parent_path() / new_filename_str);
+                std::cout << "Renamed " << filename + extension << " to " << new_filename_str << "\n";
+            }
         }
     }
+    std::cout << "\nJob finished";
     return 0;
 }
