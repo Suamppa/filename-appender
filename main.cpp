@@ -1,4 +1,4 @@
-/* Base functionality generated with ChatGPT (https://chat.openai.com) */
+/* Base functionality generated with ChatGPT (https://chat.openai.com) and heavily modified by Samppa Alatalo */
 
 #include <iostream>
 #include <fstream>
@@ -6,6 +6,15 @@
 #include <filesystem>
 
 namespace fs = std::filesystem;
+
+// Removes trailing alphabetical characters from a string
+void remove_alpha(std::string& str) {
+    auto last_symbol = str.rbegin();
+    while (isalpha(*last_symbol)) {
+        ++last_symbol;
+        str.pop_back();
+    }
+}
 
 int main(int argc, char* argv[]) {
     fs::path root_dir;
@@ -17,8 +26,9 @@ int main(int argc, char* argv[]) {
     } else root_dir = argv[1];
     std::cout << "Using " << root_dir.string() << " as working directory";
 
-    // Loop through all subdirectories and their files
-    for (const auto& entry : fs::directory_iterator(root_dir)) {
+    // Loop through all files in $root_dir
+    auto directory_iterator = fs::directory_iterator(root_dir);
+    for (const auto& entry : directory_iterator) {
         if (entry.is_regular_file()) {
             // Get the filename and extension
             fs::path file_path = entry.path();
@@ -27,18 +37,15 @@ int main(int argc, char* argv[]) {
             // Create a stringstream to build the new filename
             std::stringstream new_filename;
             new_filename << filename;
-            // Check if any other files in the same directory have the same base filename
             int count = 0;
-            for (const auto& dir_entry : fs::directory_iterator(file_path.parent_path())) {
+
+            // Check if any other files in any subdirectories have the same base filename
+            for (const auto& dir_entry : fs::recursive_directory_iterator(root_dir)) {
                 if (dir_entry.is_regular_file()) {
                     fs::path other_path = dir_entry.path();
                     std::string other_name = other_path.stem().string();
                     // Ignore any trailing alphabetical characters
-                    auto last_symbol = other_name.rbegin();
-                    while (isalpha(*last_symbol)) {
-                        ++last_symbol;
-                        other_name.pop_back();
-                    }
+                    remove_alpha(other_name);
                     if (other_name == filename && other_path != file_path) {
                         ++count;
                     }
