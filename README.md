@@ -4,6 +4,8 @@ The program checks all regular files in its assigned working directory, comparin
 Any duplicates get a letter added to the end of their filenames in alphabetical order.
 The program is built to work specifically in a file structure like Pokemon Infinite Fusion's `CustomBattlers`.
 
+#### **Note that using this _before_ importing a new sprite pack by launching the game will cause any intended replacement sprites to become alts!**
+
 ## How to use:
 1. Move `Filename_appender.exe` to a handy location, like Pokemon Infinite Fusion's game folder.
 1. Start `Filename_appender.exe`.
